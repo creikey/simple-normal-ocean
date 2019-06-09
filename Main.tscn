@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Camera.gd" type="Script" id=1]
+[ext_resource path="res://addons/SimpleNormalOcean/simple-normal-ocean.shader" type="Shader" id=2]
+[ext_resource path="res://addons/SimpleNormalOcean/0258.jpg" type="Texture" id=3]
+[ext_resource path="res://addons/SimpleNormalOcean/0066.jpg" type="Texture" id=4]
+[ext_resource path="res://addons/SimpleNormalOcean/0001.jpg" type="Texture" id=5]
+[ext_resource path="res://FPSLabel.gd" type="Script" id=6]
+
+[sub_resource type="ProceduralSky" id=1]
+sky_horizon_color = Color( 0.647059, 0.839216, 0.945098, 1 )
+ground_horizon_color = Color( 0.647059, 0.839216, 0.945098, 1 )
+ground_curve = 0.00901249
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 1 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 2 )
+shader_param/albedo = Color( 0.207843, 0.45098, 0.521569, 1 )
+shader_param/specular = 3.31
+shader_param/metallic = 0.83
+shader_param/roughness = 0.37
+shader_param/point_size = 1.0
+shader_param/metallic_texture_channel = Plane( 1, 0, 0, 0 )
+shader_param/roughness_texture_channel = Plane( 1, 0, 0, 0 )
+shader_param/normal_1_time = Vector2( -0.14, 0.058 )
+shader_param/normal_2_time = Vector2( 0.015, -0.07 )
+shader_param/normal_3_time = Vector2( -0.07, 0.07 )
+shader_param/normal_scale = 0.923
+shader_param/uv1_scale = Vector3( 100, 100, 1 )
+shader_param/uv1_offset = Vector3( 0, 0, 0 )
+shader_param/uv2_scale = Vector3( 100, 100, 1 )
+shader_param/uv2_offset = Vector3( 0, 0, 0 )
+shader_param/uv3_scale = Vector3( 100, 100, 0 )
+shader_param/uv3_offset = null
+shader_param/texture_normal_1 = ExtResource( 3 )
+shader_param/texture_normal_2 = ExtResource( 4 )
+shader_param/texture_normal_3 = ExtResource( 5 )
+
+[sub_resource type="PlaneMesh" id=4]
+material = SubResource( 3 )
+size = Vector2( 30000, 30000 )
+
+[node name="Main" type="WorldEnvironment"]
+environment = SubResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 166.162, 0 )
+current = true
+far = 10000.0
+script = ExtResource( 1 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( -0.542234, 0.105735, -0.833548, -0.711243, 0.470414, 0.522345, 0.447343, 0.876088, -0.179871, 0.155796, 13.9446, -19.464 )
+
+[node name="SimpleNormalOcean" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.037529, -3.94415, 0 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="FPSLabel" type="Label" parent="CanvasLayer"]
+margin_right = 40.0
+margin_bottom = 14.0
+script = ExtResource( 6 )
